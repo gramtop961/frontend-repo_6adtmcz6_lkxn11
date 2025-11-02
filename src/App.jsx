@@ -1,28 +1,41 @@
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import Hero from './components/Hero';
+import MoodForm from './components/MoodForm';
+import Results from './components/Results';
+import Trending from './components/Trending';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [mood, setMood] = useState('');
+  const [recentMoods, setRecentMoods] = useState([]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('mood');
+    if (q) setMood(q);
+  }, []);
+
+  const handleGenerate = (m) => {
+    setMood(m);
+    setRecentMoods((prev) => [m, ...prev].slice(0, 20));
+  };
+
+  const proNudge = () => {
+    alert('Pro coming soon: unlimited AI tracks, longer renders, and HD downloads.');
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[#0b0b15] font-[Inter,ui-sans-serif] text-white">
+      <Hero />
+      <main>
+        <MoodForm onGenerate={handleGenerate} />
+        <Results mood={mood} onProNudge={proNudge} />
+        <Trending recentMoods={recentMoods} />
+      </main>
+      <footer className="mx-auto mt-16 w-full max-w-6xl px-6 pb-16 text-center text-white/50">
+        Built with love • MoodMelody.ai
+      </footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
