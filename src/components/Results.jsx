@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Play, Square, Crown } from 'lucide-react';
+import { Play, Square } from 'lucide-react';
 
 // Simple mapping from mood keywords to known public playlists
 const moodToPlaylists = [
@@ -123,7 +123,7 @@ function useAIMelody(seedText) {
   return { play, stop, isPlaying };
 }
 
-const Results = ({ mood, onProNudge }) => {
+const Results = ({ mood }) => {
   if (!mood) return null;
   const pl = findPlaylist(mood);
   const { play, stop, isPlaying } = useAIMelody(mood);
@@ -168,12 +168,10 @@ const Results = ({ mood, onProNudge }) => {
               <h3 className="text-lg font-semibold text-white">AI Melody Generator</h3>
               <p className="mt-1 text-sm text-white/60">Short, unique tune inspired by “{mood}”.</p>
             </div>
-            <button
-              onClick={onProNudge}
-              className="inline-flex items-center gap-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 px-3 py-1 text-xs text-yellow-200 hover:bg-yellow-500/20"
-            >
-              <Crown className="h-3 w-3" /> Pro: Unlimited
-            </button>
+            {/* Sponsored label replaces any pro messaging */}
+            <div className="rounded-full border border-cyan-400/40 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-100">
+              Sponsored
+            </div>
           </div>
 
           <div className="mt-5 flex items-center gap-3">
@@ -195,6 +193,13 @@ const Results = ({ mood, onProNudge }) => {
               </button>
             )}
             <span className="text-xs text-white/50">Generated locally with WebAudio</span>
+          </div>
+
+          {/* Inline ad unit for monetization */}
+          <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-4">
+            <div className="mb-2 text-xs uppercase tracking-wide text-white/50">Ad</div>
+            <div className="h-24 w-full rounded-md bg-gradient-to-br from-white/10 to-white/5" />
+            <div className="mt-2 text-xs text-white/40">Place your AdSense code here</div>
           </div>
 
           <div className="pointer-events-none mt-6 h-20 w-full rounded-xl bg-gradient-to-r from-violet-500/20 via-sky-500/10 to-cyan-500/20 blur-xl" />

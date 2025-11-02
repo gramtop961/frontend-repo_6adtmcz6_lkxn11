@@ -19,16 +19,12 @@ function App() {
     setRecentMoods((prev) => [m, ...prev].slice(0, 20));
   };
 
-  const proNudge = () => {
-    alert('Pro coming soon: unlimited AI tracks, longer renders, and HD downloads.');
-  };
-
   return (
     <div className="min-h-screen bg-[#0b0b15] font-[Inter,ui-sans-serif] text-white">
       <Hero />
       <main>
         <MoodForm onGenerate={handleGenerate} />
-        <Results mood={mood} onProNudge={proNudge} />
+        <Results mood={mood} />
         <Trending recentMoods={recentMoods} />
       </main>
       <footer className="mx-auto mt-16 w-full max-w-6xl px-6 pb-16 text-center text-white/50">
